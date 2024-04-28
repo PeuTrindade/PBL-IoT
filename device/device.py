@@ -14,7 +14,7 @@ brokerPortUDP = None
 deviceName = None
 
 # Estado do dispositivo.
-device_state = {"on": False, "temperature": 25, "tcpServerPort": None, "deviceName": None, "logs": []}
+device_state = {"on": False, "temperature": 25, "deviceName": None, "logs": []}
 
 # Função responsável por enviar estado do dispositivo em UDP.
 def send_device_state_to_server():
@@ -152,9 +152,7 @@ def send_greeting_messages():
 
     clientTCP.connect((brokerIPAdress, int(brokerPortTCP)))
     clientUDP.connect((brokerIPAdress, int(brokerPortUDP)))
-    local_ip, local_port = clientTCP.getsockname()
     
-    device_state['tcpServerPort'] = local_port
     device_state['deviceName'] = deviceName
 
     message = clientTCP.recv(1024).decode()

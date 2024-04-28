@@ -5,13 +5,13 @@ import Dropdown from "./Dropdown";
 import { useState } from "react";
 import { FiClock } from "react-icons/fi";
 
-function List({ items }) {
+function List({ items, brokerIP }) {
     const [selectedDevice, setSelectedDevice] = useState()
     const [selectedDeviceIndex, setSelectedDeviceIndex] = useState()
 
     const onClickModeButton = async (address, mode) => {
         try {
-            await fetch(`http://127.0.0.1:5000//change_mode/${address}/${mode}`, {
+            await fetch(`http://${brokerIP}:5976//change_mode/${address}/${mode}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
@@ -24,7 +24,7 @@ function List({ items }) {
 
     const updateTemperature = async (address, temperature) => {
         try {
-            await fetch(`http://127.0.0.1:5000//change_temperature/${address}/${temperature}`, {
+            await fetch(`http://${brokerIP}:5976//change_temperature/${address}/${temperature}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
@@ -52,6 +52,8 @@ function List({ items }) {
     
         return formattedDate;
     }
+
+    console.log(items)
 
     return (
         <ul className="list-group mt-3">
@@ -105,17 +107,17 @@ function List({ items }) {
                 </div>
             </div>
 
-            <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
-                <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasScrollingLabel">{items[selectedDeviceIndex]?.deviceName} - logs</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            <div className="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+                <div className="offcanvas-header">
+                    <h5 className="offcanvas-title" id="offcanvasScrollingLabel">{items[selectedDeviceIndex]?.deviceName} - logs</h5>
+                    <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
-                <div class="offcanvas-body">
-                <ul class="list-group">
+                <div className="offcanvas-body">
+                <ul className="list-group">
                     {items[selectedDeviceIndex]?.logs && items[selectedDeviceIndex]?.logs.slice().reverse().map((log, key) => {
                         return (
-                            <li style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '6px'}} key={key} class="list-group-item">
-                                <span style={{ display: 'flex',alignItems: 'center', gap: '6px'}} class="badge text-bg-primary"><FiClock /> {formatDate(log.date)}</span>
+                            <li style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '6px'}} key={key} className="list-group-item">
+                                <span style={{ display: 'flex',alignItems: 'center', gap: '6px'}} className="badge text-bg-primary"><FiClock /> {formatDate(log.date)}</span>
                                 {log.message}
                             </li>
                         )

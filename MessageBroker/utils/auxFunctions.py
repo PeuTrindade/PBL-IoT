@@ -18,10 +18,11 @@ def save_device(connection, address):
     global connectedDevices
     
     connection.sendto(str("Dispositivo conectado o broker com sucesso!").encode(), (address[0], tcpPort))
-    connectedDevices[address[1]] = {"addressInfo": address, "sentMessages": {}}
-    connections[str(address[1])] = connection
-        
-    print(f"Um novo dispositivo foi conectado: {address[1]}")
+    
+    connectedDevices[address[0]] = {}
+    connections[str(address[0])] = connection
+
+    print(f"Um novo dispositivo foi conectado: {address[0]}")
 
 # Função responsável por enviar o modo escolhido em TCP ao dispositivo.
 def change_device_mode(port, mode):
@@ -45,17 +46,17 @@ def receive_udp_message(udpServer):
     
     decoded_message = json.loads(message.decode())
     
-    message_tcp_port = decoded_message['tcpServerPort']
+    message_ip_address = address[0]
     
-    if message_tcp_port in connectedDevices:
+    if message_ip_address in connectedDevices:
         # Caso o dispositivo esteja inativo, suas informações são removidas do dicionário.
         if decoded_message['on'] == None:
-            connectedDevices.pop(message_tcp_port)
-            connections.pop(str(message_tcp_port))
+            connectedDevices.pop(message_ip_address)
+            connections.pop(str(message_ip_address))
         else:
-            connectedDevices[message_tcp_port]['sentMessages'] = decoded_message
+            connectedDevices[message_ip_address] = decoded_message
 
-            print(f"Sucesso: Mensagem UDP recebida de {message_tcp_port}!")
+            print(f"Sucesso: Mensagem UDP recebida de {message_ip_address}!")
 
 # Função responsável por receber as conexões.
 def receive_connections():
@@ -66,16 +67,16 @@ def receive_connections():
         threading.Thread(target=save_device, args=(connection, address)).start()
     
 # Função responsável por iniciar o Broker e escutar as conexões.
-def start_broker_server():
+def start_broker_server(brokerIP):
     global tcpServer
     global udpServer
     
     tcpServer = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    tcpServer.bind(('localhost', tcpPort))
+    tcpServer.bind((str(brokerIP), tcpPort))
     tcpServer.listen(1)
     udpServer = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     udpServer.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 65535)
-    udpServer.bind(('localhost', udpPort))
+    udpServer.bind((str(brokerIP), udpPort))
     
     print(f"TCP Server is listening on port {tcpPort}")
     print(f"UDP Server is listening on port {udpPort}")

@@ -45,9 +45,12 @@ def send_temperature_command(port, temperature):
         return jsonify({ "message": "Falha ao enviar comando!"}), 500
 
 if __name__ == '__main__':
+    # Recebe o valor do IP da máquina rodando o Broker.
+    brokerIP = input("\033[34m" + "IP do servidor Broker: "+ "\033[0m")
+
     # Inicia a thread para o servidor como broker.
-    broker_thread = threading.Thread(target=start_broker_server)
+    broker_thread = threading.Thread(target=start_broker_server, args=(brokerIP,))
     broker_thread.start()
     
     # Inicia o servidor Flask.
-    app.run()
+    app.run(port=5976)
