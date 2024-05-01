@@ -4,6 +4,8 @@ import time
 import threading
 import atexit
 import datetime
+import pickle
+import os
 
 clientTCP = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 clientUDP = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -15,6 +17,25 @@ deviceName = None
 
 # Estado do dispositivo.
 device_state = {"on": False, "temperature": 25, "deviceName": None, "logs": []}
+
+# Salva em um arquivo binário o último estado do dispositivo.
+def save_last_state():
+    global device_state
+    
+    with open('last_state.bin', 'wb') as file:
+        pickle.dump(device_state, file)
+
+# Ler do arquivo binário o último estado do dispositivo.    
+def get_last_state():
+    global device_state
+    
+    if os.path.exists('last_state.bin'):
+        with open('last_state.bin', 'rb') as file:
+            loaded_data = pickle.load(file)
+            
+            if loaded_data:
+                loaded_data['on'] = False
+                device_state = loaded_data
 
 # Função responsável por enviar estado do dispositivo em UDP.
 def send_device_state_to_server():
@@ -38,6 +59,8 @@ def change_device_to_inactive():
     if len(device_state['logs']) > 10:
         device_state['logs'] = [device_state['logs'][len(device_state['logs']) - 1]]
     
+    # Armazena o último estado do dispositivo em um arquivo binário.
+    save_last_state()
     clientUDP.sendto(json.dumps(device_state).encode(), (brokerIPAdress, int(brokerPortUDP)))
 
 # Função responsável por printar o menu.
@@ -138,6 +161,9 @@ def listen_to_server():
 # Função responsável por enviar a primeira mensagem ao usuário.
 def send_greeting_messages():
     global brokerPortTCP, brokerPortUDP, brokerIPAdress, deviceName
+    
+    # Caso haja algum estado passado armazenado, é carregado.
+    get_last_state()
     
     print("\033[36m" + "===================================\nAr condicionado iniciado!\n===================================" + "\033[0m")
 
