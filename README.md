@@ -21,9 +21,7 @@ OBS: É possível visualizar o comportamento do sistema utilizando apenas uma m�
 1) Baixe o projeto como ZIP em sua máquina, ou clone o repositório:
 
 ```
-
 git clone https://github.com/PeuTrindade/PBL-IoT
-
 ```
 
 2) Acesse pelo terminal o projeto `PBL-IOT`.
@@ -35,17 +33,13 @@ git clone https://github.com/PeuTrindade/PBL-IoT
 2) Acesse a pasta `frontend` e execute o seguinte comando Docker:
 
 ```
-
 docker build -t frontend .
-
 ```
 
 3) Em seguida, execute este comando:
 
 ```
-
 docker run --name frontend -p 3000:3000 frontend
-
 ```
 
 ### 📥 Como iniciar o Broker:
@@ -55,9 +49,7 @@ docker run --name frontend -p 3000:3000 frontend
 2) Execute o seguinte comando:
 
 ```
-
 python MessageBroker.py
-
 ```
 
 ### 🖲️ Como iniciar o sensor:
@@ -67,7 +59,5 @@ python MessageBroker.py
 2) Execute o seguinte comando:
 
 ```
-
 python device.py
-
 ```
