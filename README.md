@@ -30,7 +30,7 @@ OBS: É possível visualizar o comportamento do sistema utilizando apenas uma m�
 1) Baixe o projeto como ZIP em sua máquina, ou clone o repositório:
 
 ```
-git clone https://github.com/PeuTrindade/PBL-IoT
+git clone https://github.com/PeuTrindade/PBL-IoT.git
 ```
 
 2) Acesse pelo terminal o projeto `PBL-IOT`.
