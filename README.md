@@ -10,6 +10,15 @@ Já o segundo, consiste em um simples Broker de mensagens. Este produto tem como
 
 Por fim, o terceiro subsistema simula um sensor de ar-condicionado. Este dispositivo é responsável por enviar de forma ininterrupta informações referentes a um ar-condicionado, tais como: modo (ligado/desligado), temperatura e logs. Este produto foi desenvolvido utilizando a linguagem de programação `Python`.
 
+## 📋 Pré-requisitos
+
+Para garantir o bom funcionamento do projeto em seu ambiente, é necessário que haja algumas ferramentas instaladas:
+
+```
+Docker
+Python 3.10.5
+```
+
 ## 🔧 Instalação
 
 Esta seção irá explicar como rodar este projeto em sua máquina local. 
