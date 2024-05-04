@@ -177,7 +177,6 @@ def send_greeting_messages():
     print("==================================="  + "\033[0m")
 
     clientTCP.connect((brokerIPAdress, int(brokerPortTCP)))
-    clientUDP.connect((brokerIPAdress, int(brokerPortUDP)))
     
     device_state['deviceName'] = deviceName
 

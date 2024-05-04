@@ -53,4 +53,4 @@ if __name__ == '__main__':
     broker_thread.start()
     
     # Inicia o servidor Flask.
-    app.run(port=5976)
+    app.run(host=brokerIP, port=5976)
