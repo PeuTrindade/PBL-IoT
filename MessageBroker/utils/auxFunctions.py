@@ -67,16 +67,16 @@ def receive_connections():
         threading.Thread(target=save_device, args=(connection, address)).start()
     
 # Função responsável por iniciar o Broker e escutar as conexões.
-def start_broker_server(brokerIP):
+def start_broker_server():
     global tcpServer
     global udpServer
     
     tcpServer = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    tcpServer.bind((str(brokerIP), tcpPort))
+    tcpServer.bind(('0.0.0.0', tcpPort))
     tcpServer.listen(1)
     udpServer = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     udpServer.setsockopt(socket.SOL_SOCKET, socket.SO_RCVBUF, 65535)
-    udpServer.bind((str(brokerIP), udpPort))
+    udpServer.bind(('0.0.0.0', udpPort))
     
     print(f"TCP Server is listening on port {tcpPort}")
     print(f"UDP Server is listening on port {udpPort}")
