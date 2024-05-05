@@ -17,6 +17,8 @@ Para garantir o bom funcionamento do projeto em seu ambiente, é necessário que
 ```
 Docker
 Python 3.10.5
+Node
+npm
 ```
 
 ## 🔧 Instalação
@@ -51,13 +53,33 @@ docker build -t frontend .
 docker run --name frontend -p 3000:3000 frontend
 ```
 
+OBS: Os passos 2 e 3 são para o uso do Docker, caso deseje utilizar o node/npm execute:
+
+```
+npm install
+npm start
+```
+
 ### 📥 Como iniciar o Broker:
 
 1) Acesse a pasta `MessageBroker`.
 
-2) Execute o seguinte comando:
+2) Execute o seguinte comando Docker:
 
 ```
+docker build -t broker .
+```
+
+3) Em seguida, execute este comando:
+
+```
+docker run -p 4000:4000 -p 5000:5000/udp -p 5976:5976 broker
+```
+
+OBS: Os passos 2 e 3 são para o uso do Docker, caso deseje utilizar o python execute:
+
+```
+pip install -r requirements.txt
 python MessageBroker.py
 ```
 
@@ -68,5 +90,18 @@ python MessageBroker.py
 2) Execute o seguinte comando:
 
 ```
+docker build -t device .
+```
+
+3) Em seguida, execute o seguinte comando:
+
+```
+docker run -it --name device device
+```
+
+OBS: Os passos 2 e 3 são para o uso do Docker, caso deseje utilizar o python execute:
+
+```
+pip install -r requirements.txt
 python device.py
 ```
