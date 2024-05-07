@@ -131,9 +131,11 @@ Ao arquivo principal do Broker ser inicializado, é criada uma “thread” para
 Então, quando este servidor está em andamento, primeiramente são configurados os “sockets” (Recursos responsáveis por criar conexões entre diferentes computadores) para conexões TCP/IP e UDP. TCP/IP (Transmission Control Protocol) e UDP (User Datagram Protocol) são protocolos de comunicação, sendo o primeiro deles caracterizado pela entrega confiável e segura dos dados aos destinatários, enquanto o segundo é comumente utilizado para comunicações rápidas e eficientes, visto que não possui confiabilidade, podendo haver perda de informações. Ambos protocolos foram utilizados no Broker de acordo com os seus conceitos.
 
 Após tais configurações serem implementadas, é iniciada uma “thread” responsável por receber conexões. Quando uma conexão é recebida, os dados do conector são salvos em um dicionário de dispositivos, criando como chave identificatória o IP da máquina em que o dispositivo está funcionando. Além disso, a conexão é salva em um outro dicionário, para facilitar possíveis comunicações futuras.
+
 Além da thread mencionada acima, uma outra função se mantém em execução paralelamente. Ela tem como papel receber as mensagens vindas dos dispositivos em protocolo UDP. Assim, após uma mensagem ser capturada, é realizada uma lógica para verificar o endereço IP do emitente e o conteúdo, e por fim, é salvo no dicionário de dispositivos a informação recebida na localização do dispositivo que a enviou.
 
 Existem ainda duas funções importantes pertencentes ao arquivo auxiliar do Broker. Tais funções são utilizadas quando as rotas de alteração de modo e temperatura são requisitadas. Basicamente, elas recebem como parâmetro o endereço IP do dispositivo que o usuário deseja modificar, e o valor a ser substituído. Então, busca-se no dicionário de conexões a conexão referente àquele endereço, e é enviada ao dispositivo uma mensagem via protocolo TCP/IP contendo o novo dado a ser inserido. 
+
 Visando garantir segurança na implementação desses dois métodos, foi utilizado o protocolo TCP/IP, já que, trata-se de informações importantes que não podem ser perdidas. Segue abaixo um diagrama ilustrando todo o funcionamento do Broker. (Ver figura 4)
 
 ![Figura 4](https://github.com/PeuTrindade/PBL-IoT/assets/84353169/820cd89b-257a-4468-82a8-fffef68d97d6)
